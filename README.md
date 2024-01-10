@@ -60,15 +60,19 @@ asadmin stop-domain domain1
 <img src="https://github.com/vellarLa/ESA_LAB_1/assets/83453185/c4bcaebb-4c15-4954-8e69-beb6f75e6985" width="600">
 
 Далее пользователю предоставляется выбор фильмов:
+
 <img src="https://github.com/vellarLa/ESA_LAB_1/assets/83453185/8626d31b-31a4-41ba-8bb9-65ed460924aa" width="600">
 
 После выбора фильма, пользователь может выбрать сеанс, на который хочет купить билет
+
 <img src="https://github.com/vellarLa/ESA_LAB_1/assets/83453185/77c004cf-e239-45e6-874b-e44fbbd769ca" width="600">
 
 После выбора сеанса мы видим список свободных мест
+
 <img src="https://github.com/vellarLa/ESA_LAB_1/assets/83453185/91e30798-402d-48d8-a11b-aaf91cc784b4" width="600">
 
 После покупки билета, эти места исчезают из списка свободных и отображаются по ссылке "my tickets". Из "my tickets" можно удалить билет билет, нажав на "delete"
+
 <img src="https://github.com/vellarLa/ESA_LAB_1/assets/83453185/d408751a-ae66-472b-82dc-fed461b14a78" width="600">
 <img src="https://github.com/vellarLa/ESA_LAB_1/assets/83453185/869e2031-9e5f-4a9c-a2b2-97fdcc0c02ea" width="600">
  
