@@ -32,7 +32,8 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public FilmDto findById(Long id) {
-        return filmRepository.findFirstById(id).toDto();
+        Film film = filmRepository.findFirstById(id);
+        return film == null ? null : film.toDto();
     }
 
     @Override

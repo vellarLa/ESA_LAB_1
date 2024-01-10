@@ -29,7 +29,10 @@ public class TimetableServiceImpl implements TimetableService {
     }
     @Override
     public TimetableDto findById(Long id) {
-        return timetableRepository.findFirstById(id).toDto();
+        Timetable timetable = timetableRepository.findFirstById(id);
+        if (timetable == null)
+            return null;
+        return timetable.toDto();
     }
     @Override
     public List<TimetableDto> findAll() {

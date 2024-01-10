@@ -4,14 +4,14 @@
     <xsl:template match="ArrayList">
         <html>
             <body>
-                <h1>Tickets</h1>
+                <h1>Films</h1>
                 <table border="1">
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Seat</th>
-                            <th>Cost</th>
-                            <th>Timetable</th>
+                            <th>Name</th>
+                            <th>Genre</th>
+                            <th>Country</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -19,12 +19,10 @@
                             <tr>
                                 <td><xsl:value-of select="id"/></td>
                                 <td>
-                                    Seat : <xsl:value-of select="seatDto/seat"/> | Row <xsl:value-of select="seatDto/row"/>
+                                    <xsl:value-of select="name"/>/>
                                 </td>
-                                <td><xsl:value-of select="cost"/></td>
-                                <td>
-                                    <xsl:value-of select="timetable/film/name"/> | <xsl:value-of select="timetable/date"/> | hall(<xsl:value-of select="timetable/hall"/>)
-                                </td>
+                                <td><xsl:value-of select="genre"/></td>
+                                <td><xsl:value-of select="country"/></td>
                             </tr>
                         </xsl:for-each>
                     </tbody>

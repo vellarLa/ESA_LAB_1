@@ -3,6 +3,9 @@ package com.example.demo.controller.rest;
 import com.example.demo.dto.TicketDto;
 import com.example.demo.service.TicketService;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,6 +16,8 @@ import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping(value = "/rest/tickets")
@@ -23,6 +28,10 @@ public class TicketRestController {
 
     @GetMapping(path = "", produces = {MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> findAllXml() throws TransformerException, IOException {
+        JavaTimeModule javaTimeModule = new JavaTimeModule();
+        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        xmlMapper.registerModule(javaTimeModule);
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer(new StreamSource("src/main/resources/static/ticket.xslt"));
         Source xmlSource = new StreamSource(new ByteArrayInputStream(xmlMapper.writeValueAsBytes(ticketService.findAll())));
@@ -48,7 +57,7 @@ public class TicketRestController {
     @PostMapping(path = "", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> save(@RequestBody TicketDto ticketDto) {
         ticketService.save(ticketDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

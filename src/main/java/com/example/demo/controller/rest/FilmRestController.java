@@ -3,6 +3,9 @@ package com.example.demo.controller.rest;
 import com.example.demo.dto.FilmDto;
 import com.example.demo.service.FilmService;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,16 +16,20 @@ import javax.xml.transform.stream.StreamSource;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @RestController
-@RequestMapping(value = "/rest/departments")
+@RequestMapping(value = "/rest/films")
 @RequiredArgsConstructor
 public class FilmRestController {
     private final FilmService filmService;
     private final XmlMapper xmlMapper = new XmlMapper();
 
-    @GetMapping(path = "", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @GetMapping(path = "", produces = {MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<?> findAllXml() throws TransformerException, IOException {
+        JavaTimeModule javaTimeModule = new JavaTimeModule();
+        xmlMapper.registerModule(javaTimeModule);
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer(new StreamSource("src/main/resources/static/film.xslt"));
         Source xmlSource = new StreamSource(new ByteArrayInputStream(xmlMapper.writeValueAsBytes(filmService.findAll())));
@@ -48,7 +55,7 @@ public class FilmRestController {
     @PostMapping(path = "", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
     public ResponseEntity<?> save(@RequestBody FilmDto filmDto) {
         filmService.save(filmDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

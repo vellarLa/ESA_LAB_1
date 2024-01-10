@@ -46,7 +46,8 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public TicketDto findById(Long id) {
-        return ticketRepository.findFirstById(id).toDto();
+        Ticket ticket = ticketRepository.findFirstById(id);
+        return ticket == null ? null : ticket.toDto();
     }
 
     @Override
